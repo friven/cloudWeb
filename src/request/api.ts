@@ -1,7 +1,7 @@
 // 定义接口格式：
 // export  const  自定义接口名  =  (形参)  =>  instance.方法(路径，后端要的参数);
 import instance from './request'
-import commonInstance from './commonRequest'
+import { request } from './commonRequest'
 interface IloginParam {
   firstName: string;
   secondName: string;
@@ -15,7 +15,7 @@ interface IupdateNavStatus {
 // post请求 ，没参数
 export const testAPI = () => instance.post('/test')
 
-export const yiyanAPI = () => commonInstance.post('/yiyan')
+export const yiyanAPI = () => request.post('/yiyan')
 
 // // post请求，有参数
 // export const loginAPI = (data: IloginParam): dataAPI<IloginParam> =>

@@ -25,7 +25,6 @@ import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue'
 import { Vue } from 'vue-class-component'
 import { testGetApi, yiyanAPI } from '../request/api'
 import NavigationBar from '@/components/NavigationBar.vue' // @ is an alias to /src
-
 // components: {
 //   NavigationBar
 // },
@@ -36,6 +35,8 @@ let timer = 0
 let timerIndex = 0
 // const paraWidth = ref<string>('50px')
 // const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
+const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
+const bgStyle = ref('1920.php')
 const number = 0
 // const num1: number = number || 111 // 0默认也是undefined
 // const num2: number = number ?? 111
@@ -48,11 +49,17 @@ const number = 0
 //     })
 //     let { list, pageNum, pageSize, total } = res.data
 // }
+
+// vite中使用new Url加载本地图片 webpack中require或import 此处引入后报错 待查
+// const bgColor = () => {
+//   const imgUrl = new URL(`${backGroundImageHome.value}`, import.meta.url).href
+//   return imgUrl
+// }
 // 每日一言接口及调用
 const yiyan = () => { // .then 使用回调函数
   yiyanAPI().then((res) => {
-    console.log('***', res)
-    paragraph.value = res.toString()
+    console.log('***', res.data)
+    paragraph.value = res.data.toString()
     startTimer()
   })
 }
@@ -122,6 +129,8 @@ onBeforeUnmount(() => {
         width: 400%;
         z-index: 5;
    }
+  // background-image: url(v-bind('backGroundImageHome')); //../assets/image/bc1.jpg
+  background: url('https://api.dujin.org/bing/1920.php')
 }
 
 .message {
