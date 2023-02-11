@@ -12,10 +12,15 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 
-const NavigationBar: string[] = reactive(['首页', '生活倒影', '聊天室', '留言板', '关于'])
+const NavigationBar: string[] = reactive([
+  '首页',
+  '生活倒影',
+  '聊天室',
+  '留言板',
+  '关于'
+])
 console.log(NavigationBar.length)
 console.log(NavigationBar)
-
 </script>
 
 <style lang="scss" scoped>
@@ -35,12 +40,22 @@ console.log(NavigationBar)
 .titleBar:hover {
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0px 1px 3px 0px rgb(0, 34, 77);
+   transition: all .3s ease-in-out;
 }
 
 .sideBar {
   display: flex;
   justify-content: space-around;
   line-height: 60px;
+  :hover{
+    -webkit-transition: all 0.5s ease-in-out;
+    color:orange;
+    box-shadow:0 1px 3px 0 rgb(0 34 77 / 5%);
+    transition: all .3s ease-in-out;
+    cursor:pointer;
+    border-bottom:5px solid orange;
+  }
+  box-sizing:border-box;
 }
 
 .sideItem {
@@ -60,5 +75,6 @@ console.log(NavigationBar)
 .title:hover {
   color: red;
   cursor: pointer;
+   transition: all .3s ease-in-out;
 }
 </style>

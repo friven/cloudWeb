@@ -2,6 +2,8 @@
   <div class="home">
     <NavigationBar></NavigationBar>
     <div class="backGroundImage">
+      <div class='bannerWave1'></div>
+      <div class='bannerWave2'></div>
 
     </div>
     <div class="message">
@@ -33,7 +35,7 @@ const paragraphTmp = ref<string>('')// 存储定时器定时增加数据
 let timer = 0
 let timerIndex = 0
 // const paraWidth = ref<string>('50px')
-const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
+// const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
 const number = 0
 // const num1: number = number || 111 // 0默认也是undefined
 // const num2: number = number ?? 111
@@ -82,7 +84,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-$imageBG: v-bind('backGroundImageHome');
+// $imageBG: v-bind('backGroundImageHome');
+@keyframes gradientBG{
+  0%{
+    background-position:0 50%
+    }
+  50%{
+    background-position:100% 50%
+    }
+    to{
+      background-position:0 50%
+      }
+}
 
 .backGroundImage {
   position: fixed;
@@ -90,7 +103,25 @@ $imageBG: v-bind('backGroundImageHome');
   height: 100%;
   z-index: -1;
   background: center / cover no-repeat;
-  background-image: url($imageBG);
+  background-image: url('../assets/image/bc1.jpg');
+  .bannerWave1,.bannerWave2{
+    position:absolute;
+    bottom:0;
+    -webkit-animation: gradientBG 120s linear infinite;
+    animation: gradientBG 120s linear infinite;
+  }
+   .bannerWave1{
+     height: 84px;
+      background: url('../assets/image/bannerWave1') repeat-x;
+      width: 200%;
+      z-index: 10;
+   }
+   .bannerWave2{
+         height: 100px;
+        background:  url('../assets/image/bannerWave2')  repeat-x;
+        width: 400%;
+        z-index: 5;
+   }
 }
 
 .message {
