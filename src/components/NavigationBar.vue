@@ -5,6 +5,9 @@
       <div class="sideItem" v-for="item in NavigationBar" :key="item">
         {{ item }}
       </div>
+      <div class="login">
+
+      </div>
     </div>
   </header>
 </template>
@@ -29,7 +32,7 @@ console.log(NavigationBar)
   justify-content: space-between;
   width: 100%;
   height: 60px;
-  font-size: 30px;
+  font-size: 25px;
   background-color: transparent;
   position: fixed;
   top: 0;
@@ -40,26 +43,28 @@ console.log(NavigationBar)
 .titleBar:hover {
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0px 1px 3px 0px rgb(0, 34, 77);
-   transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 
 .sideBar {
   display: flex;
   justify-content: space-around;
   line-height: 60px;
-  :hover{
+
+  :hover {
     -webkit-transition: all 0.5s ease-in-out;
-    color:orange;
-    box-shadow:0 1px 3px 0 rgb(0 34 77 / 5%);
+    color: orange;
+    box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
     transition: all .3s ease-in-out;
-    cursor:pointer;
-    border-bottom:5px solid orange;
+    cursor: pointer;
+    border-bottom: 5px solid orange;
   }
+
   box-sizing:border-box;
 }
 
 .sideItem {
-  width: 150px;
+  width: 100px;
   // background-color: skyblue;
   text-align: center;
   color: #fff;
@@ -75,6 +80,6 @@ console.log(NavigationBar)
 .title:hover {
   color: red;
   cursor: pointer;
-   transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
 }
 </style>

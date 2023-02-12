@@ -2,20 +2,19 @@
   <div class="home">
     <NavigationBar></NavigationBar>
     <div class="backGroundImage">
-      <div class='bannerWave1'></div>
-      <div class='bannerWave2'></div>
 
     </div>
     <div class="message">
       <p>料青山见我应如是</p>
       <div class="yiyan">{{ paragraphTmp }}<span class="cursor">|</span></div>
     </div>
-    <div>
-      <div class="wave1"></div>
-      <div class="wave2"></div>
-    </div>
     <div class="content">
-
+      <div class="waveCon">
+        <div class='bannerWave1'></div>
+        <div class='bannerWave2'></div>
+      </div>
+      <div class="blog">
+      </div>
     </div>
   </div>
 </template>
@@ -33,10 +32,6 @@ const paragraph = ref<string>('') // 存储一言全部数据
 const paragraphTmp = ref<string>('')// 存储定时器定时增加数据
 let timer = 0
 let timerIndex = 0
-// const paraWidth = ref<string>('50px')
-// const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
-const backGroundImageHome = ref<string>('../assets/image/bc1.jpg')
-const bgStyle = ref('1920.php')
 const number = 0
 // const num1: number = number || 111 // 0默认也是undefined
 // const num2: number = number ?? 111
@@ -91,17 +86,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-// $imageBG: v-bind('backGroundImageHome');
-@keyframes gradientBG{
-  0%{
-    background-position:0 50%
-    }
-  50%{
-    background-position:100% 50%
-    }
-    to{
-      background-position:0 50%
-      }
+@keyframes gradientBG {
+  0% {
+    background-position: 0 50%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  to {
+    background-position: 0 50%
+  }
 }
 
 .backGroundImage {
@@ -109,28 +105,8 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: center / cover no-repeat;
-  background-image: url('../assets/image/bc1.jpg');
-  .bannerWave1,.bannerWave2{
-    position:absolute;
-    bottom:0;
-    -webkit-animation: gradientBG 120s linear infinite;
-    animation: gradientBG 120s linear infinite;
-  }
-   .bannerWave1{
-     height: 84px;
-      background: url('../assets/image/bannerWave1') repeat-x;
-      width: 200%;
-      z-index: 10;
-   }
-   .bannerWave2{
-         height: 100px;
-        background:  url('../assets/image/bannerWave2')  repeat-x;
-        width: 400%;
-        z-index: 5;
-   }
-  // background-image: url(v-bind('backGroundImageHome')); //../assets/image/bc1.jpg
-  background: url('https://api.dujin.org/bing/1920.php')
+  background: center / cover no-repeat url('https://api.dujin.org/bing/1920.php');
+
 }
 
 .message {
@@ -142,17 +118,10 @@ onBeforeUnmount(() => {
   font-size: 50px;
   display: flex;
   flex-direction: column;
-}
-
-.content {
-  width: 100%;
-  height: 1000px;
-  margin-top: 920px;
-  background-color: #fff;
+  overflow: hidden;
 }
 
 .yiyan {
-  // width: v-bind('paraWidth');
   height: 50px;
   background-color: rgba($color: #2c2929, $alpha: 0.6);
   border-radius: 10px;
@@ -173,6 +142,48 @@ onBeforeUnmount(() => {
     visibility: hidden;
     opacity: 0;
     transform: translateY(100px)
+  }
+}
+
+.content {
+  width: 100%;
+  height: 1000px;
+
+  .waveCon {
+    height: 100px;
+    width: 100%;
+    background-color: transparent;
+    position: relative;
+    top: 0;
+    z-index: 10;
+    overflow: hidden;
+
+    .bannerWave1,
+    .bannerWave2 {
+      position: absolute;
+      -webkit-animation: gradientBG 120s linear infinite;
+      animation: gradientBG 120s linear infinite;
+    }
+
+    .bannerWave1 {
+      height: 84px;
+      background: url('../assets/image/bannerWave1') repeat-x;
+      width: 200%;
+      z-index: 10;
+    }
+
+    .bannerWave2 {
+      height: 100px;
+      background: url('../assets/image/bannerWave2') repeat-x;
+      width: 400%;
+      z-index: 5;
+    }
+  }
+
+  .blog {
+    height: 900px;
+    background-color: #fff;
+    margin-top: -16px;
   }
 }
 
