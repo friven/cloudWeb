@@ -6,6 +6,14 @@
         {{ item }}
       </div>
       <div class="login">
+        <el-dropdown>
+          <img class="headPic" src="../assets/image/bc1.jpg" alt="">
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item v-for="item in LoginList" :key="item">{{ item }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
 
       </div>
     </div>
@@ -14,7 +22,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-
 const NavigationBar: string[] = reactive([
   '首页',
   '生活倒影',
@@ -24,6 +31,10 @@ const NavigationBar: string[] = reactive([
 ])
 console.log(NavigationBar.length)
 console.log(NavigationBar)
+const LoginList: string[] = reactive([
+  '登录'
+])
+// const loginImg = ref<string>('../assets/image/bc1.jpg')
 </script>
 
 <style lang="scss" scoped>
@@ -51,23 +62,24 @@ console.log(NavigationBar)
   justify-content: space-around;
   line-height: 60px;
 
-  :hover {
-    -webkit-transition: all 0.5s ease-in-out;
-    color: orange;
-    box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
-    transition: all .3s ease-in-out;
-    cursor: pointer;
-    border-bottom: 5px solid orange;
-  }
-
-  box-sizing:border-box;
 }
 
 .sideItem {
   width: 100px;
-  // background-color: skyblue;
   text-align: center;
   color: #fff;
+  z-index: 100;
+  cursor: pointer;
+  box-sizing: border-box;
+
+}
+
+.sideItem:hover {
+  -webkit-transition: all 0.5s ease-in-out;
+  color: orange;
+  box-shadow: 0 1px 3px 0 rgb(0 34 77 / 5%);
+  transition: all .3s ease-in-out;
+  border-bottom: 5px solid orange;
 }
 
 .title {
@@ -78,8 +90,22 @@ console.log(NavigationBar)
 }
 
 .title:hover {
-  color: red;
+  color: orange;
   cursor: pointer;
   transition: all .3s ease-in-out;
+}
+
+.login {
+  width: 100px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .headPic {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+  }
 }
 </style>
