@@ -14,25 +14,36 @@
         <div class='bannerWave2'></div>
       </div>
       <div class="blog">
+        <div class="verticalContent">
+          <div class="leftBox"></div>
+          <div class="rightBox">
+            <div class="blogBox">
+              <el-skeleton :rows="5" />
+              <div class="blogConent"></div>
+              <el-button class="registerBtn" @click="scroll()" size="large" type="danger">注册</el-button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, onBeforeUnmount, reactive, ref } from 'vue'
-import { Vue } from 'vue-class-component'
-import { testGetApi, yiyanAPI } from '../request/api'
+import { onBeforeUnmount, ref, computed, onMounted } from 'vue'
+// import { Vue } from 'vue-class-component'
+import { yiyanAPI } from '../request/api'
 import NavigationBar from '@/components/NavigationBar.vue' // @ is an alias to /src
+import useScroll from '../utils/useScroll'
 // components: {
 //   NavigationBar
 // },
-const arr: string[] = ['首页', 'Tab1']
 const paragraph = ref<string>('') // 存储一言全部数据
 const paragraphTmp = ref<string>('')// 存储定时器定时增加数据
 let timer = 0
 let timerIndex = 0
-const number = 0
 // const num1: number = number || 111 // 0默认也是undefined
 // const num2: number = number ?? 111
 // console.log('print num', num1, num2)
@@ -80,6 +91,35 @@ onBeforeUnmount(() => {
   clearInterval(timer) // 清除定时器
   timer = 0
 })
+
+interface blogType {
+  image: string,
+  title: string
+}
+
+// const { scrollTop } = useScroll(window)
+// const computedScroll = computed(() => {
+//   console.log('-----scroll', scrollTop.value)
+//   return scrollTop.value > 300
+// })
+
+const scroll = () => {
+  // const { scrollTop } = useScroll(window)
+}
+
+onMounted(() => {
+  // declare var window: Window & typeof globalThis; ts中window及全局变量类型声明不是仅window 使用as any
+  (window as any).addEventListener('scroll', () => {
+    const { scrollTop } = useScroll(window as any)
+    console.log('-----scroll111', scrollTop.value)
+    // useScroll(window as any).then(({ scrollTop }) => {
+    // console.log('-----scroll111', scrollTop.value)
+    // })
+  })
+}
+
+)
+
 // export default class HomeView extends Vue {
 //   const arr: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 // }
@@ -181,9 +221,33 @@ onBeforeUnmount(() => {
   }
 
   .blog {
-    height: 900px;
+    height: 1000px;
     background-color: #fff;
     margin-top: -16px;
+    overflow: hidden;
+
+    .verticalContent {
+      width: 90%;
+      height: 100%;
+      color: skyblue;
+      margin: 0 5% 0 5%;
+      display: flex;
+      margin-top: 16px;
+
+      .leftBox {
+        width: 30%;
+        height: 100%;
+        background-color: orange;
+      }
+
+      .rightBox {
+        width: 70%;
+        height: 100%;
+        background-color: skyblue;
+        display: flex;
+        flex-direction: column;
+      }
+    }
   }
 }
 

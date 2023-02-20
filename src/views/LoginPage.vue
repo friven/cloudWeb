@@ -35,11 +35,11 @@ import { ref } from 'vue'
 
 const userName = ref<string>('')
 const password = ref<string>('')
-const mail = ref<string>('')
 // eslint-disable-next-line camelcase
 const userName_Reg = ref<string>('')// eslint-disable-next-line camelcase
 const password_Reg = ref<string>('')// eslint-disable-next-line camelcase
 const mail_Reg = ref<string>('')
+// 登录注册动画start
 const loginY = ref<string>('0px')
 const tmpX = ref<string>('50%')
 const registerX = ref<string>('100%')
@@ -57,6 +57,7 @@ const loginTransReg = () => {
     loginFlag.value = true
   }
 }
+// 登录注册动画end
 </script>
 
 <style lang="scss" scoped>
@@ -124,8 +125,8 @@ const loginTransReg = () => {
 }
 
 //!!!
-.el-input__wrapper {
-  background-color: red !important;
+:deep(.el-input__wrapper) {
+  background-color: #eee !important;
 }
 
 //!!!

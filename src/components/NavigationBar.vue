@@ -27,15 +27,8 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-interface navigationType {
-  item: string
-  index: number
-}
 
-interface iconType {
-  name: string
-  color: string
-}
+import { navigationType, iconType } from '../utils/interface'
 
 const NavigationBar = ref<navigationType[] | null>([
   // 选择商品
