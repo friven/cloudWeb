@@ -1,6 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
 const apiUrl = process.env.VUE_APP_API_IP
 const netUrl = process.env.VUE_APP_NET_IP
+const proUrl = process.env.VUE_APP_PRO_IP
+
 module.exports = defineConfig({
   // transpileDependencies: true,
   devServer: {
@@ -18,6 +20,13 @@ module.exports = defineConfig({
         changeOrigin: true,
         pathRewrite: {
           '^/net': '' // 正则匹配请求中的api替换为''
+        }
+      },
+      '/pro': {
+        target: proUrl, // 将所有请求代理到这台机器上
+        changeOrigin: true,
+        pathRewrite: {
+          '^/pro': '' // 正则匹配请求中的api替换为''
         }
       }
     }

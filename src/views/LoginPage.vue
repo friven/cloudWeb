@@ -7,7 +7,7 @@
           <el-input class="user" v-model="userName" placeholder="用户名/邮箱" />
           <el-input class="pwd" v-model="password" placeholder="密码" />
           <p class="forgetPWD">忘记密码？</p>
-          <el-button class="loginBtn" size="large" type="danger">登录</el-button>
+          <el-button class="loginBtn" size="large" type="danger" @click='loginClick()'>登录</el-button>
         </div>
       </div>
       <div class="registerTmp">
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import NavigationBar from '@/components/NavigationBar.vue' // @ is an alias to /src
 import { ref } from 'vue'
+import { useStore } from 'vuex'
 
 const userName = ref<string>('')
 const password = ref<string>('')
@@ -56,6 +57,12 @@ const loginTransReg = () => {
     registerX.value = '100%'
     loginFlag.value = true
   }
+}
+
+const loginClick = () => {
+  const store = useStore()
+  store.commit('setUserName', userName)
+  store.commit('setUserID', password)
 }
 // 登录注册动画end
 </script>

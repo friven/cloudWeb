@@ -2,6 +2,7 @@
 // export  const  自定义接口名  =  (形参)  =>  instance.方法(路径，后端要的参数);
 import instance from './request'
 import { request } from './commonRequest'
+import proRequest from './proRequest'
 interface IloginParam {
   firstName: string;
   secondName: string;
@@ -16,6 +17,8 @@ interface IupdateNavStatus {
 export const testAPI = () => instance.post('/test')
 
 export const yiyanAPI = () => request.post('/yiyan')
+
+export const blogAPI = () => proRequest.get('/blog/list')
 
 // // post请求，有参数
 // export const loginAPI = (data: IloginParam): dataAPI<IloginParam> =>

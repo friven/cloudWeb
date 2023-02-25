@@ -2,6 +2,7 @@
 type navigationType = {
   item: string
   index: number
+  type: string
 }
 
 type iconType = {

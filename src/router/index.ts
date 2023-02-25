@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginPage.vue')
   },
+  {
+    path: '/Chat',
+    name: 'Chat',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ChatPage.vue')
+  },
   { //  解决动态路由加载前未找到路由浏览器警告
     path: '/:catchAll(.*)',
     name: '404',

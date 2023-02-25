@@ -6,7 +6,7 @@
 
 <style lang="scss">
 #app {
-  font-family: jie;
+  font-family: jfl;
   font-weight: bold;
   // font-size: 30px;
   -webkit-font-smoothing: antialiased;
@@ -20,7 +20,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
 }
 
 p {

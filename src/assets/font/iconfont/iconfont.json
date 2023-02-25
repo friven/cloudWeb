@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "577384",
+      "name": "信息",
+      "font_class": "xinxi",
+      "unicode": "e763",
+      "unicode_decimal": 59235
+    },
+    {
+      "icon_id": "4244945",
+      "name": "053-群聊入口",
+      "font_class": "-qunliaorukou",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "6684316",
+      "name": "邀请好友",
+      "font_class": "yaoqinghaoyou",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
       "icon_id": "10554935",
       "name": "退出登录",
       "font_class": "tuichudenglu",

@@ -25,18 +25,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, withDefaults, defineProps } from 'vue'
 import { useRouter } from 'vue-router'
-
+import useScroll from '../utils/useScroll'
+import addEvent from '../utils/utils'
 import { navigationType, iconType } from '../utils/interface'
 
 const NavigationBar = ref<navigationType[] | null>([
   // 选择商品
-  { item: '首页', index: 1 },
-  { item: '生活倒影', index: 2 },
-  { item: '聊天室', index: 3 },
-  { item: '留言板', index: 4 },
-  { item: '关于', index: 5 }
+  { item: '首页', index: 1, type: 'login' },
+  { item: '生活倒影', index: 2, type: 'xx' },
+  { item: '聊天室', index: 3, type: 'Chat' },
+  { item: '留言板', index: 4, type: 'xx' },
+  { item: '关于', index: 5, type: 'about' }
 ])
 
 const iconList = ref<iconType[]>([
@@ -57,6 +58,8 @@ const handleCommand = (command: string | number | object) => {
 const barClick = (index: number) => {
   if (index === 1) {
     router.push({ path: '/' })
+  } else if (index === 3) {
+    router.push({ path: '/Chat' })
   }
 }
 // const NavigationBar: string[] = reactive([
@@ -66,12 +69,25 @@ const barClick = (index: number) => {
 //   '留言板',
 //   '关于'
 // ])
-console.log(NavigationBar.value?.length)
-console.log(NavigationBar)
 const LoginList: string[] = reactive([
   '登录'
 ])
+interface Props {
+  naviTopY: string;
+}
+// props已经算是响应式数据，并且可以直接用的变量
+const props = withDefaults(defineProps<Props>(), {
+  naviTopY: '0px'
+})
+onMounted(() => {
+  // declare var window: Window & typeof globalThis; ts中window及全局变量类型声明不是仅window 使用as any
+  // addEvent('scroll', () => {
+  //   useScroll(window as any).then((res: any) => {
+  //     const scrollTop = res.scrollTop.value
 
+  //   })
+  // })
+})
 // const loginImg = ref<string>('../assets/image/bc1.jpg')
 </script>
 
@@ -84,9 +100,10 @@ const LoginList: string[] = reactive([
   font-size: 25px;
   background-color: transparent;
   position: fixed;
-  top: 0;
+  top: v-bind(naviTopY);
   left: 0;
   z-index: 1;
+  transition: all .3s ease-in-out;
 }
 
 .titleBar:hover {
