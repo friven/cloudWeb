@@ -13,11 +13,12 @@ export function send(message: string) {
   }
 }
 
-export function wsInit() {
+export function wsInit(param: string, callback: any) {
   if (window.WebSocket) {
-    socket = new WebSocket('ws://localhost:8084/ws')
+    socket = new WebSocket('ws://localhost:3000/ws?' + param)
     socket.onmessage = function (event) {
       console.log('onmessage', event.data)
+      callback(event.data)
     }
     socket.onopen = function (event) {
       ElMessage({

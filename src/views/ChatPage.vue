@@ -18,7 +18,9 @@
       </div>
     </div>
     <div class="content">
-      <ChatView></ChatView>
+      <ChatView v-if="tabActive == '聊天'"></ChatView>
+      <AddressView v-if="tabActive == '好友'"></AddressView>
+      <GroupChatView v-if="tabActive == '群聊'"></GroupChatView>
     </div>
 
   </div>
@@ -29,7 +31,8 @@ import NavigationBar from '@/components/NavigationBar.vue' // @ is an alias to /
 import { reactive, ref } from 'vue'
 import { send, wsInit } from '../utils/webSocket'
 import ChatView from './Chat/CharView.vue'
-
+import AddressView from './Chat/AddressView.vue'
+import GroupChatView from './Chat/GroupChatView.vue'
 interface tabBarType {
   icon: string,
   name: string,
@@ -128,7 +131,6 @@ const tabBarClick = (name: string) => {
   .content {
     width: 95%;
     height: 100%;
-    background-color: skyblue;
   }
 }
 </style>

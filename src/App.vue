@@ -6,8 +6,8 @@
 
 <style lang="scss">
 #app {
-  font-family: jfl;
-  font-weight: bold;
+  // font-family: jfl;
+  // font-weight: bold;
   // font-size: 30px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

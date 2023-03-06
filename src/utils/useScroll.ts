@@ -16,7 +16,7 @@ const throttle = function (fn: Function, delay = 300): any {
 
 // eslint-disable-next-line space-before-function-paren
 export default function useScroll(elRef: any): any {
-  const el = window
+  const el = elRef
   const isReachBottom = ref(false)
   const clientHeight = ref(0)
   const scrollTop = ref(0)
@@ -24,10 +24,14 @@ export default function useScroll(elRef: any): any {
   const scrollListenerHandler = function (): any {
     return new Promise((resolve, reject) => {
       throttle(() => {
-        if (el === window) {
+        if (elRef === window) {
           clientHeight.value = document.documentElement.clientHeight
           scrollHeight.value = document.documentElement.scrollHeight
           scrollTop.value = document.documentElement.scrollTop
+        } else {
+          clientHeight.value = el.clientHeight
+          scrollTop.value = el.scrollTop
+          scrollHeight.value = el.scrollHeight
         }
         if (clientHeight.value + scrollTop.value >= scrollHeight.value) {
           // homeStore.fetchHouselistData()

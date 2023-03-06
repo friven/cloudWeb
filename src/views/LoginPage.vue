@@ -5,7 +5,7 @@
       <div class="login">
         <div class="loginContent">
           <el-input class="user" v-model="userName" placeholder="用户名/邮箱" />
-          <el-input class="pwd" v-model="password" placeholder="密码" />
+          <el-input class="pwd" :show-password="true" v-model="password" placeholder="密码" />
           <p class="forgetPWD">忘记密码？</p>
           <el-button class="loginBtn" size="large" type="danger" @click='loginClick()'>登录</el-button>
         </div>
@@ -21,9 +21,9 @@
       <div class="register">
         <p>注册</p>
         <el-input class="user" v-model="userName_Reg" placeholder="用户名" />
-        <el-input class="pwd" v-model="password_Reg" placeholder="密码" />
+        <el-input class="pwd" :show-password="true" v-model="password_Reg" placeholder="密码" />
         <el-input class="pwd" v-model="mail_Reg" placeholder="邮箱" />
-        <el-button class="registerBtn" size="large" type="danger">注册</el-button>
+        <el-button class="registerBtn" size="large" type="danger" @click='registerClick()'>注册</el-button>
       </div>
     </div>
   </div>
@@ -31,8 +31,10 @@
 
 <script setup lang="ts">
 import NavigationBar from '@/components/NavigationBar.vue' // @ is an alias to /src
-import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { ref, watch } from 'vue'
+import { Store, useStore } from 'vuex'
+import { registerAPI, loginAPI } from '../request/api'
+import { ElMessage } from 'element-plus'
 
 const userName = ref<string>('')
 const password = ref<string>('')
@@ -47,23 +49,76 @@ const registerX = ref<string>('100%')
 const loginFlag = ref<boolean>(true)
 const loginTransReg = () => {
   if (loginFlag.value) {
-    loginY.value = '100%'
-    tmpX.value = '0px'
-    registerX.value = '50%'
     loginFlag.value = false
   } else {
-    loginY.value = '0px'
-    tmpX.value = '50%'
-    registerX.value = '100%'
     loginFlag.value = true
   }
 }
-
+const store: Store<any> = useStore() // 必须在setup函数体内调用，函数内调用返回undefined，可能是不是this指向还是什么
 const loginClick = () => {
-  const store = useStore()
-  store.commit('setUserName', userName)
-  store.commit('setUserID', password)
+  const json = {
+    userName: userName.value,
+    passWord: password.value
+  }
+  loginAPI(json).then((res) => {
+    console.log(res)
+    if ((res as any).code === 2002) {
+      ElMessage({
+        message: '登录成功',
+        type: 'success'
+      })
+      // console.log('success', (res as any).info)
+      const user = (res as any).info[0].userName
+      const uID = (res as any).info[0].userID
+      const nickName = (res as any).info[0].nickName
+      store.commit('setUserName', user)
+      store.commit('setUserID', uID)
+      store.commit('setNickName', nickName)
+      localStorage.setItem('nickName', nickName)
+      localStorage.setItem('userName', user)
+      localStorage.setItem('userID', uID)
+    } else {
+      ElMessage.error('登录失败,' + (res as any).info)
+    }
+  })
 }
+
+const registerClick = () => {
+  // store.commit('setUserName', userName.value)
+  // store.commit('setUserID', password.value)
+  const json = {
+    userName: userName_Reg.value,
+    passWord: password_Reg.value,
+    email: mail_Reg.value
+  }
+  registerAPI(json).then((res) => {
+    if ((res as any).code === 1002) {
+      ElMessage({
+        message: '注册成功！',
+        type: 'success'
+      })
+      loginFlag.value = true
+    } else {
+      ElMessage.error('注册失败,' + (res as any).info)
+    }
+  })
+}
+
+watch(
+  loginFlag,
+  (newval, oldval) => {
+    if (!newval) {
+      loginY.value = '100%'
+      tmpX.value = '0px'
+      registerX.value = '50%'
+    } else {
+      loginY.value = '0px'
+      tmpX.value = '50%'
+      registerX.value = '100%'
+    }
+  }
+  // {immediate: true}
+)
 // 登录注册动画end
 </script>
 

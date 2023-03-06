@@ -3,13 +3,15 @@ import { createStore } from 'vuex'
 
 interface States {
   userName: string;
-  userID: string
+  userID: string;
+  nickName: string
 }
 
 export default createStore<States>({
   state: {
-    userName: '',
-    userID: ''
+    userName: localStorage.userName ? localStorage.userName : '',
+    userID: localStorage.userID ? localStorage.userID : '',
+    nickName: localStorage.nickName ? localStorage.nickName : ''
   },
   getters: {
   },
@@ -19,6 +21,9 @@ export default createStore<States>({
     },
     setUserID(state: States, userID: string) {
       state.userID = userID
+    },
+    setNickName(state: States, nickName: string) {
+      state.nickName = nickName
     }
   },
   actions: {
