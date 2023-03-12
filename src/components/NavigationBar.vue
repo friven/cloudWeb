@@ -30,7 +30,7 @@ import { useRouter } from 'vue-router'
 import useScroll from '../utils/useScroll'
 import addEvent from '../utils/utils'
 import { navigationType, iconType } from '../utils/interface'
-
+import { ElMessage } from 'element-plus'
 const NavigationBar = ref<navigationType[] | null>([
   // 选择商品
   { item: '首页', index: 1, type: 'login' },
@@ -59,7 +59,13 @@ const barClick = (index: number) => {
   if (index === 1) {
     router.push({ path: '/' })
   } else if (index === 3) {
-    router.push({ path: '/Chat' })
+    const token = localStorage.getItem('x-auth-token')
+    if (token) {
+      router.push({ path: '/Chat' })
+    } else {
+      ElMessage.warning('请先登录')
+      // router.push({ path: '/login' })
+    }
   }
 }
 // const NavigationBar: string[] = reactive([

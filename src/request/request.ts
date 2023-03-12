@@ -1,4 +1,6 @@
 import axios from 'axios'
+import router from '../router'
+import { ElMessage } from 'element-plus'
 // 创建axios实例
 const request = axios.create({
   baseURL: '/api', // 所有的请求地址前缀部分  使用代理后只需要用api标识为代理即可
@@ -16,10 +18,10 @@ const request = axios.create({
 request.interceptors.request.use(
   config => {
     // 如果你要去localStor获取token
-    // let token = localStorage.getItem("x-auth-token");
-    // if (token) {
-    //     config.headers = {"x-auth-token": token}
-    // }
+    const token = localStorage.getItem('x-auth-token')
+    if (token && router.currentRoute.value.fullPath !== '/login') {
+      config.headers.token = token
+    }
     return config
   },
   error => {
@@ -36,6 +38,11 @@ request.interceptors.response.use(
   },
   error => {
     // 对响应错误做点什么
+    if (error.response.status === 403) {
+      localStorage.removeItem('x-auth-token')
+      ElMessage.warning('登录过期，请重新登录')
+      router.push({ path: '/login' })
+    }
     return Promise.reject(error)
   }
 )

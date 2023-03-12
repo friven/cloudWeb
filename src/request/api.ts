@@ -4,6 +4,7 @@ import instance from './request'
 import { request } from './commonRequest'
 import proRequest from './proRequest'
 import nodeRequest from './nodeRequest'
+import { AxiosRequestConfig } from 'axios'
 interface registerParam {
   userName: string;
   passWord: string;
@@ -28,12 +29,27 @@ export const yiyanAPI = () => request.post('/yiyan')
 export const blogAPI = () => proRequest.get('/blog/list')
 
 // // post请求，有参数
+// export const registerAPI = (data: registerParam) =>
+//   nodeRequest.post('/register', data)
 export const registerAPI = (data: registerParam) =>
-  nodeRequest.post('/register', data)
+  instance.post('/user/register', data)
 
 // // post请求，有参数
+// export const loginAPI = (data: loginParam) =>
+//   nodeRequest.post('/login', data)
 export const loginAPI = (data: loginParam) =>
-  nodeRequest.post('/login', data)
+  instance.post('/user/login', data)
+
+// 获取好友申请列表
+export const getFriend = (userId: string | undefined) =>
+  instance.get(`/friend/queryFriendRequestList?userId=${userId}`)
+
+export const getapplicatNum = (userId: string | undefined) =>
+  instance.get(`/friend/hadFriendRequest?userId=${userId}`)
+
+// 搜索用户
+export const searchUser = (phoneNumber: string | undefined) =>
+  instance.get(`/user/queryUser?phoneNumber=${phoneNumber}`)
 
 // // post请求 ，没参数，但要路径传参
 // export const StatusAPI = (data: IupdateNavStatus) =>

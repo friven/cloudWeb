@@ -17,7 +17,8 @@
         </div>
       </div>
     </div>
-    <div ref="chatContentRef" v-show="userActive != -1" class="chatContent">
+    <!-- v-show="userActive != -1" -->
+    <div ref="chatContentRef" v-show="userActive != -1" class="chatContent" id='chatContent'>
       <div class="chatTitle">
         <p>{{ findObjForID(userActive)?.nickName }}</p>
       </div>
@@ -38,6 +39,7 @@
       <div class="dividerLine" draggable="true" @dragstart="dragstart($event)" @drag="drag($event)"
         @dragend="dragend($event)"></div>
       <div class="chatInput">
+        <!-- <div class="point top" ></div> -->
         <div class="inputTool">
           <span ref="emjoyRef" class="emjoyT iconfont icon-xiaolian" v-click-outside="onClickOutside"></span>
         </div>
@@ -67,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, unref, onBeforeMount, nextTick } from 'vue'
+import { ref, reactive, computed, unref, onBeforeMount, nextTick, onMounted } from 'vue'
 import SearchChat from '@/components/Chat/SearchChat.vue'
 import { ClickOutside as vClickOutside, ElMessage } from 'element-plus'
 import { Store, useStore } from 'vuex'
@@ -80,7 +82,7 @@ import useScroll from '../../utils/useScroll'
 import { send, wsInit } from '../../utils/webSocket'
 import parsingEmoji from '../../utils/emjoymethod'
 import { getFriendsAPI } from '../../request/api'
-
+import addEvent from '../../utils/utils'
 // import { useState, useGetters, useMutations, useActions } from '../../hook/useStore.js'
 interface address {
   headPic: string,
@@ -109,7 +111,13 @@ const addressList = reactive<address[]>([
 
 const recodeData = reactive<recodeType[]>([
   // { sendID: 10000, receiveID: 10002, time: getDate(), content: '用户1发的内容1111111111' },
-  // { sendID: 10002, receiveID: 10000, time: getDate(), content: '用户2发的内容' }
+  // { sendID: 10002, receiveID: 10002, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10003, receiveID: 10003, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10004, receiveID: 10004, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10005, receiveID: 10005, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10006, receiveID: 10006, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10007, receiveID: 10007, time: getDate(), content: '用户2发的内容' },
+  // { sendID: 10008, receiveID: 10008, time: getDate(), content: '用户2发的内容' }
 ])
 
 const userActive = ref<number>(-1)
@@ -244,6 +252,78 @@ const getFriends = () => {
   })
 }
 
+const dragDom = () => {
+  // 需要调整尺寸的div
+  const c = document.getElementById('container')!
+  const chatContent = document.getElementById('chatContent')
+  // chat监听移动事件
+  document.getElementById('app')!.addEventListener('mousemove', move)
+  // 鼠标按下事件
+  c.addEventListener('mousedown', down)
+  // 鼠标松开事件
+  document.getElementById('app')!.addEventListener('mouseup', up)
+
+  // 是否开启尺寸修改
+  let resizeable = false
+  // 鼠标按下时的坐标，并在修改尺寸时保存上一个鼠标的位置
+  let clientY = 0
+  // div可修改的最小宽高
+  const minW = 8; const minH = 8
+  // 鼠标按下时的位置，使用n、s、w、e表示
+  let direc = ''
+
+  // 鼠标松开时结束尺寸修改
+  function up() {
+    resizeable = false
+    console.log('clientY:', clientY)
+  }
+
+  // 鼠标按下时开启尺寸修改
+  function down(e: Event) {
+    const d = getDirection(e)
+    // 当位置为四个边和四个角时才开启尺寸修改
+    if (d !== '') {
+      resizeable = true
+      direc = d
+      clientY = (e as any).clientY
+    }
+  }
+
+  // 鼠标移动事件
+  function move(e: Event) {
+    // console.log(e)
+    const d = getDirection(e)
+    let cursor
+    if (d === '') cursor = 'default'
+    else cursor = d + '-resize'
+    // 修改鼠标显示效果
+    c.style.cursor = cursor
+
+    // 当开启尺寸修改时，鼠标移动会修改div尺寸
+    if (resizeable) {
+      // 鼠标按下的位置在上部，修改高度
+      if (direc.indexOf('n') !== -1) {
+        botHeight.value = Math.max(minH, c.offsetHeight + (clientY - (e as any).clientY)) + 'px'
+        // topHeight.value = (chatContent.offsetheight - Math.max(minH, c.offsetHeight + (clientY - e.clientY))) / 100 + '%'
+        // c.style.height = Math.max(minH, c.offsetHeight + (clientY - e.clientY)) + 'px'
+        clientY = (e as any).clientY
+        console.log(chatContent)
+      }
+    }
+  }
+
+  // 获取鼠标所在div的位置
+  function getDirection(e: Event) {
+    let dir = ''
+    if ((e as any).target.className.indexOf('top') >= 0) dir += 'n'
+    return dir
+  }
+}
+onMounted(() => {
+  nextTick()
+  // dragDom()
+})
+
 // 加载完成前赋值，加载时需要数组
 onBeforeMount(() => {
   const objB = emojisBmap
@@ -276,6 +356,7 @@ onBeforeMount(() => {
     display: flex;
     flex-direction: column;
 
+    // justify-content:space-between;
     .search {
       width: 100%;
       height: 8%;
@@ -324,6 +405,7 @@ onBeforeMount(() => {
     height: 100%;
     display: flex;
     flex-direction: column;
+    // justify-content:space-between;
 
     .chatTitle {
       width: 100%;
@@ -372,7 +454,6 @@ onBeforeMount(() => {
     .chatInput {
       width: 100%;
       height: v-bind(botHeight);
-      // border-top: 1px solid #ccc;
 
       .inputTool {
         width: 100%;
